@@ -1,21 +1,58 @@
+# Autenticación con Flask-Login
 
-Asegúrate de instalar `Flask-Login` (ya añadido a `requirements.txt`):
+Este README documenta la implementación de autenticación en este proyecto, usando `Flask-Login` y `werkzeug.security`.
 
-```
+Resumen
+-------
+
+Se añadieron las funcionalidades básicas:
+- Registro de usuario
+- Inicio y cierre de sesión
+- Protección de rutas (redirección a login si no está autenticado)
+
+Instalación rápida
+-------------------
+
+Instala dependencias y ejecuta la aplicación:
+
+```bash
 pip install -r requirements.txt
+python run.py
 ```
 
-## Configuración relevante
+Rutas principales
+------------------
 
-- `SECRET_KEY` se configura en `blueprintapp/app.py`. En producción, exporta una variable de entorno `SECRET_KEY` segura.
-- `LOGIN_VIEW` está configurado como `bp_auth.login` (ruta a la página de login).
+- `GET /login`  — Formulario de inicio de sesión
+- `POST /login` — Procesa inicio de sesión
+- `GET /register` — Formulario de registro
+- `POST /register` — Crea nuevo usuario
+- `GET /logout` — Cierra la sesión actual
 
-## Cómo crear un usuario inicial (rápido)
+Archivos relevantes
+-------------------
 
-1. Ejecuta la app (por ejemplo `python run.py`).
-2. Ve a `/register` y crea una cuenta.
+- `blueprintapp/auth/models.py` — Modelo `User` (hereda `UserMixin`) con `set_password()` y `check_password()`.
+- `blueprintapp/auth/routes.py` — Lógica de `login`, `register`, `logout` y uso de `login_user`/`logout_user`.
+- `blueprintapp/app.py` — Inicializa `LoginManager`, define `user_loader` y registra el blueprint de autenticación.
+- `blueprintapp/templates/base.html` — Navbar y mensajes que muestran el estado de `current_user`.
+- `blueprintapp/miembros/routes.py` y `blueprintapp/tareas/routes.py` — Requieren autenticación vía `before_request`.
 
-Alternativa (desde Flask shell):
+Configuración importante
+------------------------
+
+- `SECRET_KEY` se define en `blueprintapp/app.py`. En entornos de producción exporta `SECRET_KEY` como variable de entorno.
+- `LOGIN_VIEW` está configurado para redirigir a la ruta de login cuando sea necesario.
+
+Crear un usuario (rápido)
+-------------------------
+
+Opción A — web:
+
+1. Ejecuta la app: `python run.py`
+2. Abre `http://localhost:5000/register` y crea la cuenta.
+
+Opción B — shell Python:
 
 ```python
 from blueprintapp.app import create_app, db
@@ -29,12 +66,21 @@ with app.app_context():
     db.session.commit()
 ```
 
-## Comprobaciones rápidas
+Verificaciones rápidas
+----------------------
 
-- Intentar acceder a `/miembros` o `/tareas` sin iniciar sesión debe redirigir a `/login`.
-- Tras iniciar sesión, el navbar muestra el nombre de usuario y el enlace `Cerrar sesión`.
+- Acceder a `/miembros` o `/tareas` sin iniciar sesión debe redirigir a `/login`.
+- Después de iniciar sesión, la barra de navegación muestra el nombre de usuario y el botón `Cerrar sesión`.
 
-## Notas y próximos pasos sugeridos
+Buenas prácticas y siguientes pasos
+----------------------------------
 
-- Para producción: usar HTTPS, cambiar `SECRET_KEY`, y considerar limitación de intentos de login.
-- Si quieres, puedo añadir confirmación por email o restablecimiento de contraseña.
+- Nunca usar el `SECRET_KEY` por defecto en producción; configúralo mediante variable de entorno.
+- Usar HTTPS y habilitar headers de seguridad (HSTS, CSP) en producción.
+- Considerar: verificación por email, restablecimiento de contraseña, bloqueo por intentos fallidos y logging de accesos.
+
+Contacto
+--------
+
+Si quieres que amplíe esta documentación con ejemplos de despliegue (Gunicorn + systemd, Docker, etc.) o tests automáticos, dímelo y lo añado.
+
