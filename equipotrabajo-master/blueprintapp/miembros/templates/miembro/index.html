@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Miembros</h2>
+    <a href="{{ url_for('bp_miembro.create') }}" class="btn btn-primary">Agregar miembro</a>
+</div>
+
+{% if miembros %}
+<div class="table-responsive">
+    <table class="table table-bordered align-middle">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for miembro in miembros %}
+            <tr>
+                <td>{{ miembro.id }}</td>
+                <td>{{ miembro.nombre }}</td>
+                <td>{{ miembro.email }}</td>
+                <td>
+                    <a href="{{ url_for('bp_miembro.edit', miembro_id=miembro.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+                    <form method="POST" action="{{ url_for('bp_miembro.delete', miembro_id=miembro.id) }}" style="display:inline-block;">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Eliminar este miembro?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-secondary">
+    No hay miembros todavía. <a href="{{ url_for('bp_miembro.create') }}">Agregar el primero</a>.
+</div>
+{% endif %}
+{% endblock %}

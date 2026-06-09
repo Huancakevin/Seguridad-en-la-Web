@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Crear tarea</h5>
+                <form action="{{ url_for('bp_tarea.create') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="completado" name="completado">
+                        <label class="form-check-label" for="completado">Completado</label>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('bp_tarea.index') }}" class="btn btn-light">Volver</a>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Tareas</h2>
+    <a href="{{ url_for('bp_tarea.create') }}" class="btn btn-primary">Agregar tarea</a>
+</div>
+
+{% if tareas %}
+<div class="table-responsive">
+    <table class="table table-bordered align-middle">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+            <tr>
+                <td>{{ tarea.id }}</td>
+                <td>{{ tarea.descripcion }}</td>
+                <td>{{ 'Completado' if tarea.completado else 'Pendiente' }}</td>
+                <td>
+                    <a href="{{ url_for('bp_tarea.edit', tarea_id=tarea.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+                    <form method="POST" action="{{ url_for('bp_tarea.delete', tarea_id=tarea.id) }}" style="display:inline-block;">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Eliminar esta tarea?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-secondary">
+    No hay tareas aún. <a href="{{ url_for('bp_tarea.create') }}">Crear una ahora</a>.
+</div>
+{% endif %}
+{% endblock %}

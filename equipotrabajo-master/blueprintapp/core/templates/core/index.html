@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+    <div class="row align-items-center">
+        <div class="col-md-7">
+            <h1 class="display-5 fw-bold">Gestiona tu equipo con seguridad</h1>
+            <p class="lead text-muted">Crea, edita y organiza miembros y tareas con una experiencia moderna y protegida por inicio de sesión.</p>
+            <div class="d-flex flex-column flex-sm-row gap-2 mt-4">
+                <a href="{{ url_for('bp_miembro.index') }}" class="btn btn-primary btn-lg">Ver miembros</a>
+                <a href="{{ url_for('bp_tarea.index') }}" class="btn btn-outline-secondary btn-lg">Ver tareas</a>
+            </div>
+        </div>
+        <div class="col-md-5 text-center">
+            <div class="p-4 bg-light rounded-4 shadow-sm">
+                {% if current_user.is_authenticated %}
+                    <h2 class="h4">Bienvenido, {{ current_user.username }}</h2>
+                    <p class="mb-0">Puedes comenzar a administrar tu equipo.</p>
+                {% else %}
+                    <h2 class="h4">Inicia sesión para empezar</h2>
+                    <p class="mb-0">Regístrate o entra con tu cuenta para ver los miembros y tareas.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
