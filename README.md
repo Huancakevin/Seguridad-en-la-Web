@@ -78,9 +78,3 @@ Buenas prácticas y siguientes pasos
 - Nunca usar el `SECRET_KEY` por defecto en producción; configúralo mediante variable de entorno.
 - Usar HTTPS y habilitar headers de seguridad (HSTS, CSP) en producción.
 - Considerar: verificación por email, restablecimiento de contraseña, bloqueo por intentos fallidos y logging de accesos.
-
-Contacto
---------
-
-Si quieres que amplíe esta documentación con ejemplos de despliegue (Gunicorn + systemd, Docker, etc.) o tests automáticos, dímelo y lo añado.
-
