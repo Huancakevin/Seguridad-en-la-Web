@@ -72,7 +72,7 @@ Verificaciones rápidas
 - Acceder a `/miembros` o `/tareas` sin iniciar sesión debe redirigir a `/login`.
 - Después de iniciar sesión, la barra de navegación muestra el nombre de usuario y el botón `Cerrar sesión`.
 
-Buenas prácticas y siguientes pasos
+siguiente paso
 ----------------------------------
 
 - Nunca usar el `SECRET_KEY` por defecto en producción; configúralo mediante variable de entorno.
